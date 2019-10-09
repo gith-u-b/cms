@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.multipart.maxSize" value="1000000000" />
+	<package name="cms" extends="struts-default">
+		<interceptors>
+			<!-- 配置拦截器，过滤操作的重要方法，记录日志 -->
+			<interceptor name="operatelog" class="com.aaa.yf.interceptor.OperationLogInterceptor">
+				<param name="excludeMethods">frontlogin,register,login,logout</param>
+			</interceptor>
+			
+			<!-- 检查管理员是否登陆 拦截器  除了前台的访问方法 -->
+			<interceptor name="adminlogin" class="com.aaa.yf.interceptor.AdminLoginInterceptor">
+				<param name="excludeMethods">findByChannel,newsHtml,login,frontlogin,register</param>
+			</interceptor>
+			
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="operatelog"></interceptor-ref>
+				<interceptor-ref name="adminlogin"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="loginsuc" type="redirect">admin/page/main.jsp</result>
+			<result name="loginfail">login.jsp</result>
+			<result name="logout" type="redirect">login.jsp</result>
+			<result name="500" type="redirect">/500.html</result>
+			<result name="input" type="redirect">/404.htm</result>
+		</global-results>
+	
+		<global-exception-mappings>
+			<exception-mapping result="500" exception="java.lang.Exception">
+			</exception-mapping>
+		</global-exception-mappings>
+	
+		<action name="user_*" method="{1}" class="com.aaa.yf.action.UserAction">
+			<result name="register">member/register.jsp</result>
+			<result name="frontloginsuc" type="redirect">index.html</result>
+			<result name="frontloginfail">member/login.jsp</result>
+		</action>
+	
+		<action name="html_*" method="{1}" class="com.aaa.yf.action.HtmlAction">
+			<result name="newshtml" type="freemarker">/${ftlPath}</result>
+			<result name="channellist" type="freemarker">/${ftlPath}</result>
+		</action>
+		
+		
+	</package>
+
+</struts>    

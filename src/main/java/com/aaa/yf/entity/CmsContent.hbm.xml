@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.aaa.yf.entity.CmsContent" table="cms_content">
+        <id name="contentId" type="java.lang.Integer">
+            <column name="content_id" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="cmsContentType" class="com.aaa.yf.entity.CmsContentType" fetch="select">
+            <column name="type_id" />
+        </many-to-one>
+        <many-to-one name="cmsUser" class="com.aaa.yf.entity.CmsUser" fetch="select">
+            <column name="user_id" />
+        </many-to-one>
+        <many-to-one name="cmsTemplate" class="com.aaa.yf.entity.CmsTemplate" fetch="select">
+            <column name="template_id" />
+        </many-to-one>
+        <many-to-one name="cmsChannel" class="com.aaa.yf.entity.CmsChannel" fetch="select">
+            <column name="channel_id" />
+        </many-to-one>
+        <property name="title" type="java.lang.String">
+            <column name="title" />
+        </property>
+        <property name="shortTitle" type="java.lang.String">
+            <column name="short_title" />
+        </property>
+        <property name="summary" type="java.lang.String">
+            <column name="summary" />
+        </property>
+        <property name="hasTitleImg" type="java.lang.Integer">
+            <column name="has_title_img" />
+        </property>
+        <property name="isRecommend" type="java.lang.Integer">
+            <column name="is_recommend" />
+        </property>
+        <property name="isStatic" type="java.lang.Integer">
+            <column name="is_static" />
+        </property>
+        <property name="isCommend" type="java.lang.Integer">
+            <column name="is_commend" />
+        </property>
+        <property name="isDisplay" type="java.lang.Integer">
+            <column name="is_display" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" />
+        </property>
+        <property name="author" type="java.lang.String">
+            <column name="author" />
+        </property>
+        <property name="origin" type="java.lang.String">
+            <column name="origin" />
+        </property>
+        <property name="originUrl" type="java.lang.String">
+            <column name="origin_url" />
+        </property>
+        <property name="contentImg" type="java.lang.String">
+            <column name="content_img"/>
+        </property>
+        <property name="content" type="java.lang.String">
+            <column name="content" />
+        </property>
+        <property name="repleaseTime">
+            <column name="replease_time"/>
+        </property>
+        <property name="titleColor" type="java.lang.String">
+            <column name="title_color" />
+        </property>
+        <property name="isBold" type="java.lang.Integer">
+            <column name="is_bold" />
+        </property>
+        <property name="titleImg" type="java.lang.String">
+            <column name="title_img" />
+        </property>
+        <property name="link" type="java.lang.String">
+            <column name="link" />
+        </property>
+         <property name="isCreated" >
+            <column name="is_created" />
+        </property>
+        <set name="cmsClicks" cascade="delete">
+            <key>
+                <column name="content_id" />
+            </key>
+            <one-to-many class="com.aaa.yf.entity.CmsClick" />
+        </set>
+        <set name="cmsComments"  cascade="delete">
+            <key>
+                <column name="content_id" />
+            </key>
+            <one-to-many class="com.aaa.yf.entity.CmsComment" />
+        </set>
+        <set name="cmsFiles" inverse="true">
+            <key>
+                <column name="content_id" />
+            </key>
+            <one-to-many class="com.aaa.yf.entity.CmsFile" />
+        </set>
+    </class>
+</hibernate-mapping>

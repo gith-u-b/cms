@@ -1,0 +1,243 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>国内新闻 - JEECMS开发站 - Powered by JEECMS</title>
+<meta http-equiv="keywords" content="国内新闻"/>
+<meta http-equiv="description" content="国内新闻"/>
+<link href="${path}/resource/news/cms/www/red/css/layout.css" rel="stylesheet" type="text/css"/>
+<link href="${path}/resource/news/cms/front.css" rel="stylesheet" type="text/css"/>
+<link href="${path}/resource/news/cms/www/red/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${path}/resource/news/cms/www/red/css/style.css" rel="stylesheet" type="text/css" />
+<link href="${path}/resource/news/cms/www/red/css/global.css" type="text/css" rel="stylesheet" />
+<script src="${path}/resource/news/cms/jquery.js" type="text/javascript"></script>
+<script src="${path}/resource/news/cms/front.js" type="text/javascript"></script>
+<link href="${path}/resource/news/cms/www/red/css/layout.css" rel="stylesheet" type="text/css"/>
+<script src="${path}/resource/news/cms/www/red/js/common.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$.post("${path}/member!verifyLogin.action",function(data){
+		if(data=="false"){
+			$("#fail").show();
+			$("#suc").hide();
+		}else{
+			var s=data.split(",");
+			$("#fail").hide();
+			$("#suc").show();
+			$("#userName").html(s[0]);
+			$("#groupName").html(s[1]);
+		}
+	});
+});
+function jumpPage(page){
+	window.location = "${path}/html_findByChannel.action?channel.channelId=${channel.channelId}&page="+page+"&rows=${cmschannel.page}";
+}
+</script>
+
+</head>
+
+<body>
+<div id="top">
+  <div class="page box">
+    <div class="fl " id="logincontent">
+	<div id="suc" style="display: none;">
+    	欢迎您: <span id="userName"></span> &nbsp; <span id="groupName"></span> &nbsp; <a href="${path}/member/logout.jsp">退出登录</a>
+   		</div>
+		<div id="fail">
+		游客您好，您还没有登录哦！ <a href="${path}/member/register.jsp ">免费注册</a>|<a href="${path}/member/login.jsp">登录</a>
+		</div>
+
+    </div>
+    <div class="fr">
+	<a href="/tag.jspx" target="_blank">Tags</a>|<a href="/guestbook.jspx" target="_blank">留言板</a>|<a href="/rss.jspx" target="_blank">RSS订阅</a>|<a href="#" onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.jeecms.com');">设为主页</a>|
+	<a onclick="javascript:window.external.AddFavorite('index.html', 'JEECMS开发站');" href="javascript:void(0)" class="login_user">加入收藏</a>
+	</div>
+  </div>
+</div><div id="header" class="box">
+  <div id="logo" class="page box">
+    <div class="logo fl" onclick="window.location.href='/'"></div>
+	
+	<div id="search fr" class="page3 box fr" style="padding-top:20px;">
+      <div class="searchform fr">
+	  <form action="/search.jspx" target="_blank">
+        <input name="q" value="请输入关键词" type="text" id="txtKey" onfocus="if(this.value=='请输入关键词')this.value=''" onblur="if(this.value=='')this.value='请输入关键词'" maxlength="50" autocomplete="off" / style="width:381px !important; width:375px;">
+		<span id="fid_box">
+		<select name="channelId" id="fid">
+		  <option value="">所有信息</option>
+		  <option value="1">新闻</option>
+		  <option value="42">图库</option>
+		  <option value="46">视频</option>
+		  <option value="9">下载</option>
+		  <option value="47">作品</option>
+		  <option value="48">产品</option>
+		</select>
+		</span>
+        <input type="submit" id="btnSearch" value=""/ style="background:url(${path}/resource/news/cms/www/red/img/button_search.jpg); width:65px; height:25px; ">
+      </form>
+	  </div>
+    </div>
+</div>
+  
+  <div class="box"></div>
+  
+ <#include "nav.html"/>
+   
+	
+	
+</div><div id="main">
+<div class="page2 position1"> 您现在正在浏览： <a href="${path}/index.html">首页</a> &raquo;
+
+<#if channels??>
+	<#list channels as c>
+        <a target="_blank" href="${path}/html_findByChannel.action?channel.channelId=${c.channelId}&page=1&rows=${c.page}">${c.channelName}</a> &raquo;
+    </#list>
+</#if>
+
+   <#if cmschannel??>
+   		 <a target="_blank" href="${path}/html_findByChannel.action?channel.channelId=${channel.channelId}&page=1&rows=${cmschannel.page}">${cmschannel.channelName}</a>
+   </#if>
+</div>
+
+<!--cjbd_begin-->
+<div class="page2 box">
+  <div class="w720 fl">
+    <div class="left_top1 box">
+      <h2 class="fl"><a href="#" target="_blank">${cmschannel.channelName}</a></h2>
+    </div>
+    <div class="box"></div>
+    <div class="left_div1 box">
+		<div class="w96" style="min-height:800px;">
+
+<div class="c1-body">
+<#list contents as c>
+
+	<#if c.isCreated == 1>
+		<div class="c1-bline" style="padding:10px 0;"><div class="f-left"><img src="${path}/resource/news/cms/head-mark4.gif" align="middle" class="img-vm" border="0"/> <a href="" class="red" target="_blank">[${c.cmsChannel.channelName}]</a> <a href="${path}${c.cmsChannel.channelPath}/news${c.contentId}.html" title="${c.title}" target="_blank"><span style="">${c.title}</span></a></div><div class="gray f-right">${c.repleaseTime}</div><div class="clear"></div></div>
+	<#else>
+		<div class="c1-bline" style="padding:10px 0;"><div class="f-left"><img src="${path}/resource/news/cms/head-mark4.gif" align="middle" class="img-vm" border="0"/> <a href="" class="red" target="_blank">[${c.cmsChannel.channelName}]</a> <a href="${path}/news/html_newsHtml.action?content.contentId=${c.contentId}" title="${c.title}" target="_blank"><span style="">${c.title}</span></a></div><div class="gray f-right">${c.repleaseTime}</div><div class="clear"></div></div>
+	</#if>
+ </#list>
+</div>
+
+<div class="pagination">
+共${count}条记录 ${page}/${pages}页
+&nbsp;<a disabled="disabled">首页</a> 
+<#if page gt 1>
+<a  href="${path}/html_findByChannel.action?channel.channelId=${channel.channelId}&page=${page-1}&rows=${cmschannel.page}">上一页</a>&nbsp;
+<#else>
+<a disabled="disabled">上一页</a>&nbsp;
+</#if>
+
+<#if page lt pages>
+<a  href="${path}/html_findByChannel.action?channel.channelId=${channel.channelId}&page=${page+1}&rows=${cmschannel.page}">下一页</a>&nbsp;
+<#else>
+<a disabled="disabled">下一页</a>&nbsp;
+</#if>
+ <a href="${path}/html_findByChannel.action?channel.channelId=${channel.channelId}&page=${pages}&rows=${cmschannel.page}">尾页</a>
+&nbsp;第<select onChange="jumpPage(this.value)">
+ <#list 1..pages as num> 
+ 	
+ 	<#if num == page>
+ 	<option value="${num}" selected>${num}</option>
+ 	<#else>
+ 	<option value="${num}" >${num}</option>
+ 	</#if>
+</#list> 
+  
+ 
+  	
+  
+  
+</select>页
+
+</div>		</div>
+    </div>
+    <div class="left_low"></div>	 
+  </div>  
+  
+  <div class="w250 fr">
+    <div class="rb_right_top">
+      <h2>&nbsp;&nbsp;最新图文资讯</h2>
+    </div>
+    <div class="rb_right_div">
+      <!--最新图文资讯_Begin-->
+      <div class="w98"> 
+        <ul class="list right_pic">
+          <li><a href="/dong/327.jhtml" target="_blank"><img src="${path}/resource/u/cms/www/201112/19114342fmb2.jpg" alt="足球宝贝徐冬冬海边写真 湿身展无限魅力" /></a><a href="/dong/327.jhtml" title="足球宝贝徐冬冬海边写真 湿身展无限魅力" target="_blank">足球宝贝徐冬冬海边写</a></li>
+          <li><a href="/tiankong/325.jhtml" target="_blank"><img src="${path}/resource/u/cms/www/201112/191141333snd.jpg" alt="AC米兰球星出席圣诞晚会，帅哥美女云集" /></a><a href="/tiankong/325.jhtml" title="AC米兰球星出席圣诞晚会，帅哥美女云集" target="_blank">AC米兰球星出席圣诞晚</a></li>
+          <li><a href="/tiankong/324.jhtml" target="_blank"><img src="${path}/resource/u/cms/www/201112/191139257lag.jpg" alt="爨底下村私家写真" /></a><a href="/tiankong/324.jhtml" title="爨底下村私家写真" target="_blank">爨底下村私家写真</a></li>
+          <li><a href="/tiankong/323.jhtml" target="_blank"><img src="${path}/resource/u/cms/www/201112/19113545y1n3.jpg" alt="柳岩红黑诱惑大片写真" /></a><a href="/tiankong/323.jhtml" title="柳岩红黑诱惑大片写真" target="_blank">柳岩红黑诱惑大片写真</a></li>
+        </ul>
+         </div>
+      <!--最新图文资讯_End-->
+      <!--本周热门资讯排行_Begin-->
+      <h2>本周热门资讯排行</h2>
+      <div class="w98">
+        <ul class="order">
+          <li><a href="/gnxw/249.jhtml" title="南京排水管理处原副处长受贿130万获刑逾十年" target="_blank">南京排水管理处原副处长受贿130</a></li>
+          <li><a href="/system/341.jhtml" title="酷我音乐" target="_blank">酷我音乐</a></li>
+          <li><a href="/wyty/339.jhtml" title="周渝民小小彬温情携手《新天生一对》" target="_blank">周渝民小小彬温情携手《新天生一</a></li>
+          <li><a href="/wyty/338.jhtml" title="海豚的故事-先行版预告片" target="_blank">海豚的故事-先行版预告片</a></li>
+          <li><a href="/syzs/337.jhtml" title="多玩YY" target="_blank">多玩YY</a></li>
+          <li><a href="/syzs/336.jhtml" title="迅雷7" target="_blank">迅雷7</a></li>
+          <li><a href="/syzs/335.jhtml" title="有道词典" target="_blank">有道词典</a></li>
+          <li><a href="/syzs/334.jhtml" title="搜狗拼音输入" target="_blank">搜狗拼音输入</a></li>
+          <li><a href="/system/333.jhtml" title="酷狗音乐" target="_blank">酷狗音乐</a></li>
+          <li><a href="/media/332.jhtml" title="风行网络电影" target="_blank">风行网络电影</a></li>
+        </ul>
+      </div>
+      <!--本周热门资讯排行_End-->
+      <h2>精彩专题</h2>
+      <div class="w98"> 
+        <dl class="list line box">
+            <dt><a href="/topic/3.jspx" target="_blank">低碳经济</a></dt>
+          <dd class="pic"><a href="/topic/3.jspx"><img src="http://www.6788.cn/bscyw/upfiles/0125/1f0aaff5/fery/w1tg.jpg"/></a></dd>
+          <dd class="text">所谓低碳经济，是指在可持续发展理念指导下，通过技术创新、制...</dd>
+        </dl>
+        <dl class="list line box">
+            <dt><a href="/topic/2.jspx" target="_blank">上海世博会专题</a></dt>
+          <dd class="pic"><a href="/topic/2.jspx"><img src="http://xwcb.eastday.com/c/20061116/images/00033531.jpg"/></a></dd>
+          <dd class="text">人类文明的盛会，我们大家的世博，精彩开篇，“满月”有余。随...</dd>
+        </dl>
+        <dl class="list mt5 box">
+            <dt><a href="/topic/1.jspx" target="_blank">2010年南非世界杯</a></dt>
+          <dd class="pic"><a href="/topic/1.jspx"><img src="http://a2.att.hudong.com/08/61/01300000406647124377613651616.jpg"/></a></dd>
+          <dd class="text">2010年世界杯将在南非约翰内斯堡拉开帷幕，32路豪强将在一个月...</dd>
+        </dl>
+         </div>
+    </div>
+    <div class="rb_right_low"></div>
+    <!--相关文章_End-->
+  </div>
+</div>
+<!--cjbd_end-->
+</div>
+<div id="wrapper">
+<dl class="hotlink">
+  <dt>友情链接:</dt>
+    <dd><a href="http://www.jeecms.com" onclick="$.get('/friendlink_view.jspx?id=1')" target="_blank">JEECMS官网</a></dd>
+  <dd><a href="http://bbs.jeecms.com" onclick="$.get('/friendlink_view.jspx?id=2')" target="_blank">JEEBBS论坛</a></dd>
+  <dd><a href="http://www.360buy.com/" onclick="$.get('/friendlink_view.jspx?id=3')" target="_blank">京东商城</a></dd>
+  <dd><a href="http://www.dangdang.com/" onclick="$.get('/friendlink_view.jspx?id=4')" target="_blank">当当网</a></dd>
+  <dd><a href="http://www.amazon.cn/" onclick="$.get('/friendlink_view.jspx?id=5')" target="_blank">亚马逊</a></dd>
+  <dd><a href="http://www.ihush.com/" onclick="$.get('/friendlink_view.jspx?id=6')" target="_blank">ihush</a></dd>
+  <dd><a href="http://temai.dazhe.cn" onclick="$.get('/friendlink_view.jspx?id=7')" target="_blank">名品打折</a></dd>
+  <dd><a href="http://temai.dazhe.cn" onclick="$.get('/friendlink_view.jspx?id=8')" target="_blank">优品</a></dd>
+</dl>
+<div class="footer11">
+<a target="_blank" href="about.jhtml">关于我们</a> - 
+<a target="_blank" href="http://www.jeecms.com/yjdt/826.htm">联系我们</a> - 
+<a target="_blank" href="http://www.jeecms.com">诚聘英才</a> -
+<a target="_blank" href="http://www.jeecms.com">友情链接</a> - 
+<a target="_blank" href="http://www.jeecms.com/download/index.htm">程序下载</a> - 
+<a target="_blank" href="http://www.jeecms.com">合作服务</a> - 
+<a target="_blank" href="http://www.jeecms.com/yjdt/825.htm">许可协议</a> - 
+<a onClick="this.style.behavior='url(#default#homepage)';this.setHomePage(location.href)" href="javascript:void(0);">设为首页</a> - 
+<a onClick="window.external.addFavorite('http://www.jeecms.com','jeecms-国内专业、开源、免费的JAVA (JSP)版网站管理系统')" href="javascript:void(0);">加入收藏</a> - 
+<a target="_blank" href="/jeeadmin/jeecms/index.do">管理登录</a><br />
+电话：0791-6538070、13576281815　传真：0791-6538070  Processed in 0.657 second(s)<br />
+Powered by <a target="_blank" href="http://www.jeecms.com">JEECMS</a> Copyright &copy; 2007-2011 www.jeecms.com, All Rights Reserved 
+</div></div>
+</body>
+</html>

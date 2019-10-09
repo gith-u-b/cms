@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<context:component-scan base-package="com.aaa.yf"></context:component-scan>
+
+	<!-- 引用jdbc文件 配置数据源  jdbc文件中的配置 来源于 安装时指定的参数 -->
+ 	 <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/install/config/jdbc.properties</value>
+				<value>classpath:cms-config.properties</value>
+			</list>
+		</property>
+	</bean>
+	 
+	
+ 	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="${jdbc.driverClassName}">
+		</property>
+		<property name="url"
+			value="${jdbc.url}">
+		</property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+  
+	<!-- 
+ 	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="jdbc:mysql:///mycms">
+		</property>
+		<property name="username" value="root"></property>
+		<property name="password" value="admin"></property>
+	</bean>
+	  -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!-- <prop key="hibernate.show_sql">true</prop>  -->
+			</props>
+		</property>
+		<property name="mappingResources">
+				<list>
+				<value>com/aaa/yf/entity/CmsTemplate.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsTemplateType.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsComment.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsContent.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsPower.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsRole.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsExceptionLog.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsClick.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsContentType.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsChannel.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsFile.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsOperateLog.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsUser.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsLoginSuccess.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsLoginFailure.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsDuplicate.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsContentCheck.hbm.xml</value>
+				<value>com/aaa/yf/entity/CmsGroup.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+		
+	<tx:advice id="txadvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="do*" propagation="REQUIRED"/>
+			<tx:method name="*" propagation="SUPPORTS"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.aaa.yf.service.impl.*.*(..))" id="pointcut"/>
+		<aop:advisor advice-ref="txadvice" pointcut-ref="pointcut"/>
+	</aop:config>
+	
+	
+	<!-- 定时任务管理 -->
+	
+	<!-- 定义调用对象和调用对象的方法,   一些bean用的是注解  直接调用名字即可-->
+	<bean id="jobtask1" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject"><ref bean="cclickservice" /></property>  
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod">
+			<value>doWorkOne</value>
+		</property>
+	</bean>
+	
+	
+	<!-- 定义触发时间 -->
+	<bean id="doTime1" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+		<ref bean="jobtask1" />
+		</property>
+		<!-- corn表达式 -->
+		<property name="cronExpression">
+		<value>${clickCycle}</value>
+		</property>
+	</bean>
+	
+	<bean id="jobtask2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	<!-- 调用的类 -->
+		<property name="targetObject">
+		<ref bean="cclickservice" />
+		</property>
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod">
+		<value>doWorkTwo</value>
+		</property>
+	</bean>
+	
+	
+	<!-- 定义触发时间 -->
+	<bean id="doTime2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+		<ref bean="jobtask2" />
+		</property>
+		<!-- corn表达式 -->
+		<property name="cronExpression">
+		<value>${clickClear}</value>
+		</property>
+	</bean>
+	
+	
+	<!-- *******************************日志定时清理******************************** -->
+	<bean id="jobtask3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	<!-- 调用的类 -->
+		<property name="targetObject"><ref bean="cclickservice" /></property>
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod"><value>doWorkThree</value></property>
+	</bean>
+	<!-- 定义触发时间 -->
+	<bean id="doTime3" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="jobtask3" /></property>
+		<!-- corn表达式 -->
+		<property name="cronExpression">
+		<value>${logClear}</value>
+		</property>
+	</bean>
+	
+	
+	<!-- *******************************数据库定时备份******************************** -->
+	<bean id="jobtask4" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	<!-- 调用的类 -->
+		<property name="targetObject"><ref bean="databackupjob" /></property>
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod"><value>doDataBackUp</value></property>
+	</bean>
+	<!-- 定义触发时间 -->
+	<bean id="doTime4" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail"><ref bean="jobtask4" /></property>
+		<!-- corn表达式 -->
+		<property name="cronExpression">
+		<value>${dataBackUp}</value>
+		</property>
+	</bean>
+	
+	
+	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
+	<bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="doTime1" />
+				<ref bean="doTime2" />
+				<ref bean="doTime3" />
+				<ref bean="doTime4" />
+			</list>
+		</property>
+	</bean>
+	
+	
+	
+	
+	
+	
+	</beans>
+	

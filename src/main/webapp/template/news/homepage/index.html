@@ -1,0 +1,302 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=7" /> 
+<title>新闻资讯 - JEECMS开发站 - Powered by JEECMS</title>
+<meta http-equiv="keywords" content="新闻资讯"/>
+<meta http-equiv="description" content="新闻资讯"/>
+<link href="${path}/resource/news/cms/front.css" rel="stylesheet" type="text/css"/>
+<link href="${path}/resource/news/cms/www/red/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${path}/resource/news/cms/www/red/css/style.css" rel="stylesheet" type="text/css" />
+<link href="${path}/resource/news/cms/www/red/css/global.css" type="text/css" rel="stylesheet" />
+<script src="${path}/resource/news/cms/jquery.js" type="text/javascript"></script>
+<script src="${path}/resource/news/cms/front.js" type="text/javascript"></script>
+<link href="${path}/resource/news/cms/www/red/css/layout.css" rel="stylesheet" type="text/css"/>
+<script src="${path}/resource/news/cms/www/red/js/common.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	Cms.siteFlow("", location.href, document.referrer);
+	$.post("${path}/member!verifyLogin.action",function(data){
+		if(data=="false"){
+			$("#fail").show();
+			$("#suc").hide();
+		}else{
+			var s=data.split(",");
+			$("#fail").hide();
+			$("#suc").show();
+			$("#userName").html(s[0]);
+			$("#groupName").html(s[1]);
+		}
+	});
+});
+</script>
+</head>
+
+<body>
+<div id="top">
+  <div class="page box">
+    <div class="fl " id="logincontent">
+		<div id="suc" style="display: none;">
+    	欢迎您: <span id="userName"></span> &nbsp; <span id="groupName"></span> &nbsp; <a href="${path}/member/logout.jsp">退出登录</a>
+   		</div>
+		<div id="fail">
+		游客您好，您还没有登录哦！ <a href="${path}/member/register.jsp ">免费注册</a>|<a href="${path}/member/login.jsp">登录</a>
+		</div>
+    </div>
+    <div class="fr">
+	<a href="/tag.jspx" target="_blank">Tags</a>|<a href="/guestbook.jspx" target="_blank">留言板</a>|<a href="/rss.jspx" target="_blank">RSS订阅</a>|<a href="#" onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.jeecms.com');">设为主页</a>|
+	<a onclick="javascript:window.external.AddFavorite('index.html', 'JEECMS开发站');" href="javascript:void(0)" class="login_user">加入收藏</a>
+	</div>
+  </div>
+</div>
+
+<div id="header" class="box">
+  <div id="logo" class="page box">
+    <div class="logo fl" onclick="window.location.href='/'"></div>
+	
+	<div id="search fr" class="page3 box fr" style="padding-top:20px;">
+      <div class="searchform fr">
+	  <form action="/search.jspx" target="_blank">
+        <input name="q" value="请输入关键词" type="text" id="txtKey" onfocus="if(this.value=='请输入关键词')this.value=''" onblur="if(this.value=='')this.value='请输入关键词'" maxlength="50" autocomplete="off" / style="width:381px !important; width:375px;">
+		<span id="fid_box">
+		<select name="channelId" id="fid">
+		  <option value="">所有信息</option>
+		  <option value="1">新闻</option>
+		  <option value="42">图库</option>
+		  <option value="46">视频</option>
+		  <option value="9">下载</option>
+		  <option value="47">作品</option>
+		  <option value="48">产品</option>
+		</select>
+		</span>
+        <input type="submit" id="btnSearch" value=""/ style="background:url(${path}/resource/news/cms/www/red/img/button_search.jpg); width:65px; height:25px; ">
+      </form>
+	  </div>
+    </div>
+</div>
+  
+  <div class="box"></div>
+  
+<#include "nav.html"/>
+    
+	
+	
+</div><div id="wrapper">
+	 <div class="news-focus fl mr10">
+
+
+<script type="text/javascript">
+var width=367;var focus_height=246;var text_height=20;
+var swf_height=focus_height+text_height;
+
+document.write('<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="'+width+'" height="'+swf_height+'">');
+document.write('<param name="movie" value="${path}/resource/news/cms/focus1.swf"/>');
+document.write('<param name="quality" value="high"/><param name="bgcolor" value="#F0F0F0"/>');
+document.write('<param name="menu" value="false"/><param name="wmode" value="opaque"/>');
+document.write('<param name="FlashVars" value="pics=${jdimgs}&links=${jdlinks}&texts=${jdtexts}&borderwidth='+width+'&borderheight='+focus_height+'&textheight='+text_height+'"/>');
+document.write('<embed src="${path}/resource/news/cms/focus1.swf" width="'+width+'" height="'+swf_height+'" FlashVars="pics=${jdimgs}&links=${jdlinks}&texts=${jdtexts}&borderwidth='+width+'&borderheight='+focus_height+'&textheight='+text_height+'" menu="false" wmode="opaque" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>');
+document.write('</object>');
+</script>
+
+      </div>
+     <div class="new-news fl">
+          <div class="new-newscon"> 
+              <div  class="topnews">
+                    <h3>
+                    	<#if tjContent.isCreated==1>
+                    		<a href="${path}${tjContent.cmsChannel.channelPath}/news${tjContent.contentId}.html" title="${tjContent.title}" target="_blank">${tjContent.title}</a>
+                    	<#else>
+                    		<a href="${path}/news/html_newsHtml.action?content.contentId=${tjContent.contentId}" title="${tjContent.title}" target="_blank">${tjContent.title}</a>
+                    	</#if>
+                    </h3>
+                    <p>${tjContent.summary}...<a href="${path}${tjContent.cmsChannel.channelPath}/news${tjContent.contentId}.html" target="_blank">[详细]</a></p>
+               </div>
+              <ul class="top-ul">
+             	<#list ttContents as ttc >
+             	 <li>
+             	 	<#if ttc.isCreated==1>
+             	 		<a href="${path}${ttc.cmsChannel.channelPath}/news${ttc.contentId}.html" title="${ttc.title}" target="_blank">${ttc.title}</a>
+             	 	<#else>
+             	 		<a href="${path}/news/html_newsHtml.action?content.contentId=${ttc.contentId}" title="${ttc.title}" target="_blank">${ttc.title}</a>
+             	 	</#if>
+             	 </li>
+             	</#list>
+              </ul>
+          </div>
+     </div>
+     <div class="news-rgslide fr">
+     	  <div class="news-t"><h1>资讯排行榜</h1></div>
+          <ul class="news-ph">
+          <#list hots as hot>
+                  <li>
+                  		<#if hot.isCreated==1>
+                  			<a href="${path}${hot.cmsChannel.channelPath}/news${hot.contentId}.html" title="${hot.title}" target="_blank">${hot.title}</a>
+                  		<#else>
+                  			<a href="${path}/news/html_newsHtml.action?content.contentId=${hot.contentId}" title="${hot.title}" target="_blank">${hot.title}</a>
+                  		</#if>
+                  </li>
+                 
+                 </#list>
+                 
+                 </ul>
+     </div> 
+     <div class="clear"></div>
+</div>
+
+<#list divs as div >
+	<#if  div_index%3==0>
+	
+	
+	<div id="wrapper">
+	
+	
+	</#if>
+		
+  		<#if  div_index%3==2>
+  		
+  		 <div class="w367 fl h259 mr5" style="width:222px; margin:0 auto;">
+		 	 <div class="news-t">
+		    <h1>
+                        <a href="${path}/html_findByChannel.action?channel.channelId=${div.channel.channelId}&page=1&rows=${div.channel.page}" target="_blank" >${div.channel.channelName}</a>  
+              </h1>
+  			</div>
+  		  <div style="width:222px; margin:0 auto; margin-top:13px;">
+          	 
+                <div style="width:222px; height:77px; overflow:hidden; padding-bottom:10px;">
+                  <#if div.zd.isCreated==1>
+                  		<a href="${path}${div.zd.cmsChannel.channelPath}/news${div.zd.contentId}.html" title="${div.zd.title}" target="_blank"><img style="max-width:222px; max-height:77px; text-align:center;"  src="${path}/${div.zd.contentImg}" alt="${div.zd.title}"  width="222" height="91" /></a>
+                  <#else>
+                  		<a href="${path}/news/html_newsHtml.action?content.contentId=${div.zd.contentId}" title="${div.zd.title}" target="_blank"><img style="max-width:222px; max-height:77px; text-align:center;"  src="${path}/${div.zd.contentImg}" alt="${div.zd.title}"  width="222" height="91" /></a>
+                  </#if> 
+               </div>
+               <ul class="news-ul">
+               <#list div.pt as pt>
+                    <li>
+                    	<#if pt.isCreated==1>
+                    		<a href="${path}${pt.cmsChannel.channelPath}/news${pt.contentId}.html" title="${pt.title}" target="_blank">${pt.title}</a>
+                    	<#else>
+                    		<a href="${path}/news/html_newsHtml.action?content.contentId=${pt.contentId}" title="${pt.title}" target="_blank">${pt.title}</a>
+                    	</#if>
+                    </li>
+               
+               </#list>
+              </ul>
+          </div>	
+  		</div>
+  		
+  		 <div class="clear"></div>
+	</div>
+		<#else>
+	
+		<#if div_index==(divs?size-1)>
+			 <div class="w367 fl h259 mr5"  style="width: 100%">
+		 	 <div class="news-t">
+		    <h1>	
+                        <a href="${path}/html_findByChannel.action?channel.channelId=${div.channel.channelId}&page=1&rows=${div.channel.channelId}" target="_blank" >${div.channel.channelName}</a>
+              </h1>
+  			</div>
+  		  <div class="news-mkcon" style="width: 100%">
+          	   <dl>
+               	  <dt>
+               	  		<#if div.zd.isCreated==1>
+               	  			<a href="${path}${div.zd.cmsChannel.channelPath}/news${div.zd.contentId}.html" title="${div.zd.title}" target="_blank">${div.zd.title}...</a>
+               	  		<#else>
+               	  			<a href="${path}/news/html_newsHtml.action?content.contentId=${div.zd.contentId}" title="${div.zd.title}" target="_blank">${div.zd.title}...</a>
+               	  		</#if>
+               	  </dt>
+                  <dd class="news-pic">
+                  	<#if div.zd.isCreated==1>
+               	  			 <a href="${path}${div.zd.cmsChannel.channelPath}/news${div.zd.contentId}.html" title="${div.zd.title}" target="_blank"><img src="${path}/${div.zd.contentImg}" alt="${div.zd.title}" /></a>
+               	  		<#else>
+               	  			 <a href="${path}/news/html_newsHtml.action?content.contentId=${div.zd.contentId}" title="${div.zd.title}" target="_blank"><img src="${path}/${div.zd.contentImg}" alt="${div.zd.title}" /></a>
+               	  		</#if>
+                 </dd>
+                  <dd class="news-txt">${div.zd.summary}...</dd>
+               </dl>
+               <ul class="news-ul">
+               <#list div.pt as pt>
+                    <li>
+                    	<#if pt.isCreated==1>
+                    		<a href="${path}${pt.cmsChannel.channelPath}/news${pt.contentId}.html" title="${pt.title}" target="_blank">${pt.title}</a>
+                    	<#else>
+                    		<a href="${path}/news/html_newsHtml.action?content.contentId=${pt.contentId}" title="${pt.title}" target="_blank">${pt.title}</a>
+                    	</#if>
+                    </li>
+               
+               </#list>
+              </ul>
+          </div>	
+  		</div>
+  		 <div class="clear"></div>
+		</div>
+		<#else>
+		 <div class="w367 fl h259 mr5">
+		 	 <div class="news-t">
+		    <h1>	
+                        <a href="${path}/html_findByChannel.action?channel.channelId=${div.channel.channelId}&page=1&rows=${div.channel.page}" target="_blank" >${div.channel.channelName}</a> 
+              </h1>
+  			</div>
+  		  <div class="news-mkcon">
+          	   <dl>
+                  <#if div.zd.isCreated==1>
+               	  		<dt><a href="${path}${div.zd.cmsChannel.channelPath}/news${div.zd.contentId}.html" title="${div.zd.title}" target="_blank">${div.zd.title}...</a></dt>
+                  <dd class="news-pic"><a href="${path}${div.zd.cmsChannel.channelPath}/news${div.zd.contentId}.html" title="${div.zd.title}" target="_blank"><img src="${path}/${div.zd.contentImg}" alt="${div.zd.title}" /></a></dd>
+                  <dd class="news-txt">${div.zd.summary}...</dd>
+               	  <#else>
+               	  		<dt><a href="${path}/news/html_newsHtml.action?content.contentId=${div.zd.contentId}" title="${div.zd.title}" target="_blank">${div.zd.title}...</a></dt>
+                  <dd class="news-pic"><a href="${path}/news/html_newsHtml.action?content.contentId=${div.zd.contentId}" title="${div.zd.title}" target="_blank"><img src="${path}/${div.zd.contentImg}" alt="${div.zd.title}" /></a></dd>
+                  <dd class="news-txt">${div.zd.summary}...</dd>
+               	  </#if>
+               </dl>
+               <ul class="news-ul">
+               <#list div.pt as pt>
+                    <li>
+                    <#if pt.isCreated==1>
+                    
+                    	<a href="${path}${pt.cmsChannel.channelPath}/news${pt.contentId}.html" title="${pt.title}" target="_blank">${pt.title}</a>
+                    <#else>
+                    	<a href="${path}/news/html_newsHtml.action?content.contentId=${pt.contentId}" title="${pt.title}" target="_blank">${pt.title}</a>
+                    </#if>
+                    
+                    </li>
+               
+               </#list>
+              </ul>
+          </div>	
+  		</div>
+		</#if>
+		
+	</#if>
+</#list>
+
+<div id="wrapper">
+<dl class="hotlink">
+  <dt>友情链接:</dt>
+    <dd><a href="http://www.jeecms.com" onclick="$.get('/friendlink_view.jspx?id=1')" target="_blank">JEECMS官网</a></dd>
+  <dd><a href="http://bbs.jeecms.com" onclick="$.get('/friendlink_view.jspx?id=2')" target="_blank">JEEBBS论坛</a></dd>
+  <dd><a href="http://www.360buy.com/" onclick="$.get('/friendlink_view.jspx?id=3')" target="_blank">京东商城</a></dd>
+  <dd><a href="http://www.dangdang.com/" onclick="$.get('/friendlink_view.jspx?id=4')" target="_blank">当当网</a></dd>
+  <dd><a href="http://www.amazon.cn/" onclick="$.get('/friendlink_view.jspx?id=5')" target="_blank">亚马逊</a></dd>
+  <dd><a href="http://www.ihush.com/" onclick="$.get('/friendlink_view.jspx?id=6')" target="_blank">ihush</a></dd>
+  <dd><a href="http://temai.dazhe.cn" onclick="$.get('/friendlink_view.jspx?id=7')" target="_blank">名品打折</a></dd>
+  <dd><a href="http://temai.dazhe.cn" onclick="$.get('/friendlink_view.jspx?id=8')" target="_blank">优品</a></dd>
+</dl>
+<div class="footer11">
+<a target="_blank" href="about.jhtml">关于我们</a> - 
+<a target="_blank" href="http://www.jeecms.com/yjdt/826.htm">联系我们</a> - 
+<a target="_blank" href="http://www.jeecms.com">诚聘英才</a> -
+<a target="_blank" href="http://www.jeecms.com">友情链接</a> - 
+<a target="_blank" href="http://www.jeecms.com/download/index.htm">程序下载</a> - 
+<a target="_blank" href="http://www.jeecms.com">合作服务</a> - 
+<a target="_blank" href="http://www.jeecms.com/yjdt/825.htm">许可协议</a> - 
+<a onClick="this.style.behavior='url(#default#homepage)';this.setHomePage(location.href)" href="javascript:void(0);">设为首页</a> - 
+<a onClick="window.external.addFavorite('http://www.jeecms.com','jeecms-国内专业、开源、免费的JAVA (JSP)版网站管理系统')" href="javascript:void(0);">加入收藏</a> - 
+<a target="_blank" href="/jeeadmin/jeecms/index.do">管理登录</a><br />
+电话：0791-6538070、13576281815　传真：0791-6538070  Processed in 0.093 second(s)<br />
+Powered by <a target="_blank" href="http://www.jeecms.com">JEECMS</a> Copyright &copy; 2007-2011 www.jeecms.com, All Rights Reserved 
+</div></div>
+</body>
+</html>
+

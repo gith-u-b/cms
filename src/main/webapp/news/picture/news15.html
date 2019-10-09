@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html >
+   
+        <title>图片新闻 - JEECMS开发站 - Powered by JEECMS</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+      
+        <meta content="2010年2月底，媒体报道了南京市板仓街雨污分流改造工程出现多处塌陷的问题，事故原因调查中，多处疑点直指主管这段工程的南京市市政排水管理处副处长谭沭兵。 一年后，曾任南京市排水管理处规划建设科科长、南京市给排水工程公司经理的原南京市排水管理处副处长谭沭兵，因受贿罪被法院一审判处有期徒刑10年6个月，没收个人财产60万元" http-equiv="description" />
+ <link href="/MyCms/resource/news/cms/front.css" rel="stylesheet" type="text/css"/>
+<link href="/MyCms/resource/news/cms/www/red/css/global.css" type="text/css" rel="stylesheet" />
+<link href="/MyCms/resource/news/cms/www/red/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/MyCms/resource/news/cms/www/red/css/global.css" type="text/css" rel="stylesheet" />
+<script src="/MyCms/resource/news/cms/jquery.js" type="text/javascript"></script>
+<script src="/MyCms/resource/news/cms/front.js" type="text/javascript"></script>
+<link href="/MyCms/resource/news/cms/www/red/css/layout.css" rel="stylesheet" type="text/css"/>
+<script src="/MyCms/resource/news/cms/www/red/js/common.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$.post("/MyCms/member!verifyLogin.action",function(data){
+		if(data=="false"){
+			$("#fail").show();
+			$("#suc").hide();
+		}else{
+			var s=data.split(",");
+			$("#fail").hide();
+			$("#suc").show();
+			$("#userName").html(s[0]);
+			$("#groupName").html(s[1]);
+		}
+	});
+	$.post("/MyCms/cmscommentaction_findTop5Com.action",
+		{
+			"id":15
+		},
+		function(data){
+			if(data==false){
+				$("#count").html(0);
+			}else{
+				var json=eval(data);
+				$("#count").html(json.length);
+				var html="";
+				for(var i=0;i<json.length;i++){
+					html+="<a href='#'>"+json[i].content+"</a><br/>";
+				}
+				$("#commentContent").html(html);	
+			}
+					
+		}
+	);
+});
+</script>
+   </head>
+    <body>
+        <div id="top">
+  <div class="page box">
+    <div class="fl " id="logincontent">
+		<div id="suc" style="display: none;">
+    	欢迎您: <span id="userName"></span> &nbsp; <span id="groupName"></span> &nbsp; <a href="/MyCms/member/logout.jsp">退出登录</a>
+   		</div>
+		<div id="fail">
+		游客您好，您还没有登录哦！ <a href="/MyCms/member/register.jsp ">免费注册</a>|<a href="/MyCms/member/login.jsp">登录</a>
+		</div>
+    </div>
+    <div class="fr">
+	<a href="/tag.jspx" target="_blank">Tags</a>|<a href="/guestbook.jspx" target="_blank">留言板</a>|<a href="/rss.jspx" target="_blank">RSS订阅</a>|<a href="#" onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.jeecms.com');">设为主页</a>|
+	<a onclick="javascript:window.external.AddFavorite('index.html', 'JEECMS开发站');" href="javascript:void(0)" class="login_user">加入收藏</a>
+	</div>
+  </div>
+</div>
+
+<div id="header" class="box">
+  <div id="logo" class="page box">
+    <div class="logo fl" onclick="window.location.href='/'"></div>
+	
+	<div id="search fr" class="page3 box fr" style="padding-top:20px;">
+      <div class="searchform fr">
+	  <form action="/search.jspx" target="_blank">
+        <input name="q" value="请输入关键词" type="text" id="txtKey" onfocus="if(this.value=='请输入关键词')this.value=''" onblur="if(this.value=='')this.value='请输入关键词'" maxlength="50" autocomplete="off" / style="width:381px !important; width:375px;">
+		<span id="fid_box">
+		<select name="channelId" id="fid">
+		  <option value="">所有信息</option>
+		  <option value="1">新闻</option>
+		  <option value="42">图库</option>
+		  <option value="46">视频</option>
+		  <option value="9">下载</option>
+		  <option value="47">作品</option>
+		  <option value="48">产品</option>
+		</select>
+		</span>
+        <input type="submit" id="btnSearch" value="" style="background:url(/MyCms/resource/news/cms/www/red/img/button_search.jpg); width:65px; height:25px; ">
+      </form>
+	  </div>
+    </div>
+</div>
+  <div class="box"></div>
+  
+
+<div id="nav">
+	  <div id="menu" class="page box relative">
+		<dl id="topmenu">  
+		<dt class="menu_first" style="width:122px"><a href="/MyCms/index.html" target="_self" ><span>首 页</span></a></dt>
+		
+       <dt ><a href="/MyCms/html_findByChannel.action?channel.channelId=2&page=1&rows=20" target="_self" ><span>国内新闻</span></a></dt>
+       <dt ><a href="/MyCms/html_findByChannel.action?channel.channelId=3&page=1&rows=20" target="_self" ><span>国外新闻</span></a></dt>
+       <dt ><a href="/MyCms/html_findByChannel.action?channel.channelId=4&page=1&rows=20" target="_self" ><span>社会热点</span></a></dt>
+       <dt ><a href="/MyCms/html_findByChannel.action?channel.channelId=5&page=1&rows=20" target="_self" ><span>时事评论</span></a></dt>
+       <dt ><a href="/MyCms/html_findByChannel.action?channel.channelId=6&page=1&rows=20" target="_self" ><span>图片新闻</span></a></dt>
+       <dt ><a href="/MyCms/html_findByChannel.action?channel.channelId=7&page=1&rows=20" target="_self" ><span>基金视点</span></a></dt>
+       <dt ><a href="/MyCms/html_findByChannel.action?channel.channelId=8&page=1&rows=20" target="_self" ><span>财经报道</span></a></dt>
+		
+	  </dl>
+	  </div> 
+</div> 
+</div></p>
+        <div id="main">
+        <div class="page4 position1">您现在正在浏览： <a href="/MyCms/index.html">首页</a> &raquo; 
+        <a target="_blank" href="/MyCms/html_findByChannel.action?channel.channelId=1&page=1&rows=20">新闻</a> &raquo;
+        <a target="_blank" href="/MyCms/html_findByChannel.action?channel.channelId=6&page=1&rows=20">图片新闻</a> &raquo;
+        	正文</div>
+
+        <!--cjbd_begin-->
+        <div class="page4 box">
+        <div class="w720 fl">
+        <div class="rb_top">&nbsp;</div>
+        <div class="rb_mid box">
+        <div class="w96">
+        <h1> <font color="black"> “幼儿园喂药事件</font> </h1>
+        <div class="msgbar">发布时间： 2014-03-16 00:00:00.0&nbsp; 作者：aa 来源： <a target="_blank" href="163.com">
+网易
+</a> &nbsp; 浏览次数： &nbsp; 我要评论()
+          	<span onclick="Cms.collect('','249',1,'cancelSpan','comfirmSpan')" id="comfirmSpan" style="cursor: pointer;">我要收藏</span>
+
+          	<span onclick="Cms.collect('','249',0,'cancelSpan','comfirmSpan')" id="cancelSpan"  style="cursor: pointer;">取消收藏</span>
+          	 <script type="text/javascript">
+				$(function() {
+				  Cms.collectexist("","249","cancelSpan","comfirmSpan");
+				});
+			</script>
+</div>
+        <div class="summary"><strong>摘要：</strong>“幼儿园喂药事件”中的六宗罪</div>
+                 <div class="content"><div class="Line">&nbsp;</div>
+<div id="Cnt-Main-Article-QQ" bosszone="content" style="position: relative">
+<p style="text-align: center">&nbsp;</p>
+<div class="mbArticleSharePic" r="1" style="width: 400px">
+<img alt="" src="/MyCms/upload/wwsspl1.jpg"/>
+
+
+</div>
+
+ <p><strong>导语：</strong>近日，<a href="http://news.163.com/14/0313/14/9N7LPGRH00014JB5.html">公众关注的“西安两家幼儿园私自给孩子喂病毒灵”事件有新进展，涉事人员被刑拘和调查。</a>但此事件暴露的问题，并非只靠刑拘就能妥为善后的。</p>
+        </div>
+        <div class="main-info">
+            <div class="pos-rel"><i class="p1 pos-abs"></i><h3>按《托儿所幼儿园卫生保健管理办法》，只有“保健室”的幼儿园不能对儿童进行医疗诊疗活动</h3></div>
+            <p>2010年卫生部、教育部联合发布了<a href="http://www.moh.gov.cn/mohzcfgs/pgz/201010/49391.shtml">《托儿所幼儿园卫生保健管理办法》</a>，按照此办法第十条，托幼机构应当设立相应的卫生室或者保健室。卫生室应当符合医疗机构基本标准，取得卫生行政部门颁发的《医疗机构执业许可证》。保健室不得开展诊疗活动，其配置应当符合保健室设置基本要求。而此次事件发生的枫韵幼儿园只有“保健室”，理论上来说也就没有对接受儿童进行喂药等医疗诊疗活动的资质。
+</a>
+</p>
+        </div>
+        <div class="main-info">
+            <div class="pos-rel"><i class="p2 pos-abs"></i><h3>《幼儿园管理条例》与《托儿所幼儿园卫生保健管理办法》对幼儿园医师、保健员的资质要求存在疏漏与冲突，加剧了涉事幼儿园的恶行</h3></div>
+            <p>中国管理幼儿园医疗的行政法规本身就存在着疏漏与冲突。根据1990年生效执行至今的<a href="http://www.moe.edu.cn/publicfiles/business/htmlfiles/moe/moe_620/200409/3132.html">《幼儿园管理条例》</a>，幼儿园医师应当具有医学院校毕业程度，保健员只需具有高中毕业程度并受过幼儿保健培训即可。而根据2010年卫生部、教育部联合发布的<a href="http://www.moh.gov.cn/mohzcfgs/pgz/201010/49391.shtml">《托儿所幼儿园卫生保健管理办法》</a>，有卫生室的幼儿园才能有医师、医师要有《医师执业证书》，有保健室的幼儿园只能有保健员、保健员要掌握卫生消毒、传染病管理和营养膳食管理等技能。同样的职业，在不同法规中的资质标准就出现了不小的差别。而现在关于此事的报道中，对涉事医务人员的描述都是“保健医生”，这使法规在此事的诠释更为混乱。涉事幼儿园只有保健室，那“保健医生”究竟是幼儿园医师还是幼儿园保健员？该如何适用哪条法规？完全是一团乱麻。</a></a></p>
+        </div>
+        <div class="main-info">
+            <div class="pos-rel"><i class="p3 pos-abs"></i><h3>中国的医师管理制度刻意刁难通过了全国统一考试的执业医师无法高效变更执业地点，加剧了学校缺合格校医的窘境</h3></div>
+            <p>中国的医师管理制度当严处不严，但当宽处更不宽，这就使很多急需合格校医的教育机构一筹莫展，只能接受像此事件中“有张医师资格证复印件就能做校医”的尴尬解决办法。按中国《执业医师法》第十四条，医师经注册后，只能按注册的执业地点从事相应业务。执业地点注册虽能变更，但医师必须既要有新单位的拟聘用证明，又要有原单位签章的变更申请、原主管卫生行政部门的证明。不管是“上家”不放、还是没有“下家”、甚至只是官僚的文牍扯皮，都能让通过了全国统一考试的执业医师不能在县级行政区之间换工作。校医作为中国医疗业被忽视的领域，显然状况不会更好。。</a></p>
+        </div>
+        <div class="main-info">
+            <div class="pos-rel"><i class="p4 pos-abs"></i><h3>“病毒灵”多用于治疗禽畜疾病，极少用于治疗幼儿，仅有的临床试验也非治疗幼儿感冒，遑论预防幼儿感冒</h3></div>
+            <p>“病毒灵”是治疗药物，不是预防药物，常服“病毒灵”预防感冒很难管用。从中国知网、维普网等公开科技论文库的检索结构中可以看出，“病毒灵”的主成分盐酸吗啉胍多用于医治牛流感、猪伪狂犬病、鸡法囊式炎等禽畜疾病。关于幼儿使用盐酸吗啉胍药物治病的报道极少，唯一稍与感冒擦边的是2010年的一篇《吗啉盐酸盐类药物对儿童呼吸道感染的临床疗效》，其中治疗组的病例也都是急性上呼吸道感染，急性气管、支气管炎，急性支气管肺炎等幼儿急性重病，唯有发热、咳嗽、痰多的症状差相仿佛而已。</a></p>
+        </div>
+        <div class="main-info">
+            <div class="pos-rel"><i class="p5 pos-abs"></i><h3>即使用“病毒灵”治疗幼儿，药量、用法、用药时间也有严格限制，给幼儿长期大量喂食“病毒灵”片剂损害不可与正常药物副作用同日而语</h3></div>
+            <p>即使用“病毒灵”给幼儿治病，药量和用药时间也有严格限制。前述用盐酸吗啉胍治疗儿童呼吸道感染的论文，里面的治疗方法是每天按患儿体重每公斤注射0.3到0.5毫升，每0.3到0.5毫升注射液必须加5%的葡萄糖180～300毫升来稀释，临床症状减轻就必须完全停止。而根据相关报道，此次涉事幼儿园中的孩子们，极可能存在长期、大量服用“病毒灵”片剂的情况。从科学的角度来看，一方面，正常情况下人们不可能大量、长期服用“病毒灵”片剂，也就不会有相应的研究去采集这种状况中的药物对人体毒性数据。另一方面，长期服食猛药片剂对幼儿的身体损伤显然更甚于成人。</p>
+        </div>
+        <div class="main-info">
+            <div class="pos-rel"><i class="p6 pos-abs"></i><h3>公开医学数据库中，合格使用“病毒灵”的不良反应报道很少，并非副作用频繁</h3></div>
+            <p>公开医学数据库中的“病毒灵”不良反应报道很少。中国国家食药监总局不良反应监测系统没有明确指向“病毒灵”的不良反应报告。中国知网等科技论文库中，关于“病毒灵”只有3起医院报告的不良反应。其中只有一起1980年广州中医学院附属广东省中医院内科报告的《吗啉胍引起惊厥1例》是幼儿病例，剩下2003年解放军第95969部队卫生队张计锋报告的《盐酸吗啉胍致变态反应1例》与2001年黄河桥劳教所王正伟报告的《盐酸吗啉胍致滑精2例》两起是成年人病例，并且都有同时服用其他药物。这在统计学上不具备样本意义，所以“病毒灵”现在还不能确认有明显的不良先例。
+</a> </p>
+</div></div>
+        <div class="pagebar"></div>
+        <div class="tags"><strong>Tags：</strong>  本文暂无Tags！ </div>
+        <div class="other box">
+        <div class="ding fl" onclick="Cms.up('',249,0);">
+        <p>顶</p>
+
+        </div>
+        <div class="cai fl" onclick="Cms.down('',249,0);">
+        <p>踩</p>
+        </div>
+        
+        </div>
+        </div>
+        
+
+        <!--网友评论_Begin--> 
+        <div id="commentListContainer"></div>
+
+ 
+<div class="comment" id="xwpl">
+  <h2>网友评论 已有 <em><label id="count"></label></em> 条评论，<a href="/comment.jspx?contentId=249" target="_blank">查看更多评论&raquo;</a></h2>
+  <div id="commentContent"></div>
+
+  <div class="w98" style="margin-top:5px;"> 
+  <form id="commentForm" action="" method="post">
+  <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#EAEAEA">
+    <tr>
+      <td width="19%" height="80" align="right" bgcolor="#FaFaFa"><strong>评论内容：</strong><input type="hidden" name="id" value="15" id="contentId"/> </td>
+      <td width="81%" bgcolor="#FFFFFF"><textarea name="comment.content" class="cinput" cols="60" rows="5" id="content"></textarea></td>
+    </tr>
+    <tr>
+
+      <td width="19%" align="right" bgcolor="#FaFaFa"><strong>验证码：</strong></td>
+      <td width="81%" bgcolor="#FFFFFF">
+	  <input name="captcha" type="text" id="captcha"  class="input"/>
+	  <img src="/MyCms/image.jsp" onclick="this.src='/MyCms/image.jsp?d='+new Date()*1" width="100" height="35"/>
+	  </td>
+    </tr>
+    <tr>
+      <td height="30" colspan="2" align="center" bgcolor="#FFFFFF"><input type="hidden"  name="contentId" value="249"/>
+
+        <input type="button" name="Submit" value=" 马上发表 "  onclick="add()"/>
+        【网友评论仅供其表达个人看法，并不表明本站同意其观点或证实其描述。】 </td>
+    </tr>
+  </table>
+</form>
+<script type="text/javascript">
+function add(){
+	var contentId=$("#contentId").val();
+	var content=$("#content").val().trim();
+	var captcha=$("#captcha").val().trim();
+	if(content==""){
+		alert("请输入评论内容");
+		return;
+	}
+	$.post(
+			"/MyCms/comment!doComment.action",
+			{
+				"content.contentId":contentId,
+				"comment.content":content,
+				"validateCode":captcha
+			},
+			function(data){
+				if(data=="yes"){
+					alert("评论成功");
+					window.location=window.location;
+				}else if(data=="no"){
+					alert("评论失败（检查是否登陆）");
+				}else if(data == "noyes"){
+					alert("验证码输入错误");
+				}else{
+					alert("请输入验证码");
+				}
+			}
+			
+		);   
+}
+
+</script>
+  </div>
+</div>
+
+
+  <!--网友评论_End--></div>
+  
+        <div class="rb_low">&nbsp;</div>
+        </div>
+        <div class="w250 fr mt5"><!--相关文章_Begin-->
+        <div class="rb_right_top">
+        <h2><a target="_blank" href="#">本文相关资讯</a></h2>
+        </div>
+        <div class="rb_right_div"><!--相关资讯_Begin-->
+
+        <div class="w98"> 本文暂无TAG标签！ </div>
+        <!--相关资讯_End--><!--最新图文_Begin-->
+        <h2>最新图文</h2>
+        <div class="w98">
+        <ul class="list right_pic">
+            <li><a target="_blank" href="/dong/327.jhtml"><img alt="足球宝贝徐冬冬海边写真 湿身展无限魅力" src="/u/cms/www/201112/19114342fmb2.jpg" /></a><a title="足球宝贝徐冬冬海边写真 湿身展无限魅力" target="_blank" href="/dong/327.jhtml">足球宝贝徐冬冬海边写</a> 
+            <li><a target="_blank" href="/tiankong/325.jhtml"><img alt="AC米兰球星出席圣诞晚会，帅哥美女云集" src="/u/cms/www/201112/191141333snd.jpg" /></a><a title="AC米兰球星出席圣诞晚会，帅哥美女云集" target="_blank" href="/tiankong/325.jhtml">AC米兰球星出席圣诞晚</a> 
+            <li><a target="_blank" href="/tiankong/324.jhtml"><img alt="爨底下村私家写真" src="/u/cms/www/201112/191139257lag.jpg" /></a><a title="爨底下村私家写真" target="_blank" href="/tiankong/324.jhtml">爨底下村私家写真</a> 
+            <li><a target="_blank" href="/tiankong/323.jhtml"><img alt="柳岩红黑诱惑大片写真" src="/u/cms/www/201112/19113545y1n3.jpg" /></a><a title="柳岩红黑诱惑大片写真" target="_blank" href="/tiankong/323.jhtml">柳岩红黑诱惑大片写真</a> </li>
+
+        </ul>
+        </div>
+        <!--最新图文_End--><!--本周热门资讯排行_Begin-->
+        <h2>本周热门资讯排行</h2>
+        <div class="w98">
+        <ul class="order"> 
+            <li><a title="硬盘数据恢复" target="_blank" href="/system/315.jhtml">硬盘数据恢复</a> 
+            <li><a title="jeecms2012来啦" target="_blank" href="/star/220.jhtml">jeecms2012来啦</a> 
+            <li><a title="河南一红会医院疑篡改病历掩盖患者死亡真相" target="_blank" href="/shehui/250.jhtml">河南一红会医院疑篡改病历掩盖患</a> 
+            <li><a title="360杀毒" target="_blank" href="/system/320.jhtml">360杀毒</a> 
+            <li><a title="演史上最长贺岁大片 文章携汤唯黄渤欢乐声援" target="_blank" href="/wyty/191.jhtml">演史上最长贺岁大片 文章携汤唯</a> 
+            <li><a title="玩的很开心啊" target="_blank" href="/hhqw/219.jhtml">玩的很开心啊</a> 
+            <li><a title="LG P970（Optimus Black）" target="_blank" href="/phone/295.jhtml">LG P970（Optimus Black）</a> 
+            <li><a title="柳岩红黑诱惑大片写真" target="_blank" href="/tiankong/323.jhtml">柳岩红黑诱惑大片写真</a> 
+            <li><a title="演史上最长贺岁大片" target="_blank" href="/wyty/225.jhtml">演史上最长贺岁大片</a> 
+            <li><a title="魔兽世界" target="_blank" href="/network/326.jhtml">魔兽世界</a>  </li>
+
+        </ul>
+        </div>
+        <!--本周热门资讯排行_End-->
+        <h2>精彩专题</h2>
+        <div class="w98"> 
+        <dl class="list line box">
+            <dt><a target="_blank" href="/topic/3.jspx">低碳经济</a> </dt>
+            <dd class="pic"><a href="/topic/3.jspx"><img alt="" src="http://www.6788.cn/bscyw/upfiles/0125/1f0aaff5/fery/w1tg.jpg" /></a> </dd>
+
+            <dd class="text">所谓低碳经济，是指在可持续发展理念指导下，通过技术创新、制... </dd>
+        </dl>
+        
+        <dl class="list line box">
+            <dt><a target="_blank" href="/topic/2.jspx">上海世博会专题</a> </dt>
+            <dd class="pic"><a href="/topic/2.jspx"><img alt="" src="http://xwcb.eastday.com/c/20061116/images/00033531.jpg" /></a> </dd>
+            <dd class="text">人类文明的盛会，我们大家的世博，精彩开篇，“满月”有余。随... </dd>
+
+        </dl>
+        
+        <dl class="list mt5 box">
+            <dt><a target="_blank" href="/topic/1.jspx">2010年南非世界杯</a> </dt>
+            <dd class="pic"><a href="/topic/1.jspx"><img alt="" src="http://a2.att.hudong.com/08/61/01300000406647124377613651616.jpg" /></a> </dd>
+            <dd class="text">2010年世界杯将在南非约翰内斯堡拉开帷幕，32路豪强将在一个月... </dd>
+        </dl>
+         </div>
+
+        </div>
+        <div class="rb_right_low">&nbsp;</div>
+        <!--相关文章_End--></div>
+        </div>
+        </div>
+        <p><dl class="hotlink">
+  <dt>友情链接:</dt>
+    <dd><a href="http://www.jeecms.com" onclick="$.get('/friendlink_view.jspx?id=1')" target="_blank">JEECMS官网</a></dd>
+
+  <dd><a href="http://bbs.jeecms.com" onclick="$.get('/friendlink_view.jspx?id=2')" target="_blank">JEEBBS论坛</a></dd>
+  <dd><a href="http://www.360buy.com/" onclick="$.get('/friendlink_view.jspx?id=3')" target="_blank">京东商城</a></dd>
+  <dd><a href="http://www.dangdang.com/" onclick="$.get('/friendlink_view.jspx?id=4')" target="_blank">当当网</a></dd>
+  <dd><a href="http://www.amazon.cn/" onclick="$.get('/friendlink_view.jspx?id=5')" target="_blank">亚马逊</a></dd>
+  <dd><a href="http://www.ihush.com/" onclick="$.get('/friendlink_view.jspx?id=6')" target="_blank">ihush</a></dd>
+  <dd><a href="http://temai.dazhe.cn" onclick="$.get('/friendlink_view.jspx?id=7')" target="_blank">名品打折</a></dd>
+
+  <dd><a href="http://temai.dazhe.cn" onclick="$.get('/friendlink_view.jspx?id=8')" target="_blank">优品</a></dd>
+</dl>
+ <div class="footer11">
+<a target="_blank" href="about.jhtml">关于我们</a> - 
+<a target="_blank" href="http://www.jeecms.com/yjdt/826.htm">联系我们</a> - 
+<a target="_blank" href="http://www.jeecms.com">诚聘英才</a> -
+<a target="_blank" href="http://www.jeecms.com">友情链接</a> - 
+
+<a target="_blank" href="http://www.jeecms.com/download/index.htm">程序下载</a> - 
+<a target="_blank" href="http://www.jeecms.com">合作服务</a> - 
+<a target="_blank" href="http://www.jeecms.com/yjdt/825.htm">许可协议</a> - 
+<a onClick="this.style.behavior='url(#default#homepage)';this.setHomePage(location.href)" href="javascript:void(0);">设为首页</a> - 
+<a onClick="window.external.addFavorite('http://www.jeecms.com','jeecms-国内专业、开源、免费的JAVA (JSP)版网站管理系统')" href="javascript:void(0);">加入收藏</a> - 
+<a target="_blank" href="/jeeadmin/jeecms/index.do">管理登录</a><br />
+
+电话：0791-6538070、13576281815　传真：0791-6538070  Processed in 0.297 second(s)<br />
+Powered by <a target="_blank" href="http://www.jeecms.com">JEECMS</a> Copyright &copy; 2007-2011 www.jeecms.com, All Rights Reserved 
+</div></p>
+
+
+    </body>
+</html>
